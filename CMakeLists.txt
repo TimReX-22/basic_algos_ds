@@ -16,7 +16,9 @@ enable_testing()
 
 include_directories(include/datastructures)
 
-add_executable(all_tests test/test_main.cpp)
+add_executable(all_tests 
+    test/test_main.cpp
+    test/queue_test.cpp)
 target_link_libraries(all_tests gtest)
 gtest_discover_tests(all_tests)
 
