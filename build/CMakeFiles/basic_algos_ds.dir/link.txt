@@ -1,2 +1,0 @@
-/usr/bin/ar qc libbasic_algos_ds.a CMakeFiles/basic_algos_ds.dir/basic_algos_ds.cpp.o
-/usr/bin/ranlib libbasic_algos_ds.a
