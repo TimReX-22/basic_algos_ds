@@ -47,3 +47,34 @@ TEST(bst_tests, delete_node) {
     EXPECT_TRUE(bst.root());
     EXPECT_EQ(bst.root().value(), 6);
 }
+
+TEST(bst_tests, find_less) {
+    BinarySearchTree bst{1, 2, 4, 6, 8, 10, 11};
+    EXPECT_TRUE(bst.findLess(11));
+    EXPECT_EQ(bst.findLess(11), 10);
+    EXPECT_TRUE(bst.findLess(10));
+    EXPECT_EQ(bst.findLess(10), 8);
+    EXPECT_TRUE(bst.findLess(6));
+    EXPECT_EQ(bst.findLess(6), 4);
+    EXPECT_TRUE(bst.findLess(2));
+    EXPECT_EQ(bst.findLess(2), 1);
+    EXPECT_FALSE(bst.findLess(1));
+}
+
+TEST(bst_tests, find_greater) {
+    BinarySearchTree bst{1, 2, 4, 6, 8, 10, 11};
+    EXPECT_TRUE(bst.findGreater(1));
+    EXPECT_EQ(bst.findGreater(1), 2);
+    EXPECT_TRUE(bst.findGreater(2));
+    EXPECT_EQ(bst.findGreater(2), 4);
+    EXPECT_TRUE(bst.findGreater(4));
+    EXPECT_EQ(bst.findGreater(4), 6);
+    EXPECT_TRUE(bst.findGreater(6));
+    EXPECT_EQ(bst.findGreater(6), 8);
+    EXPECT_TRUE(bst.findGreater(8));
+    EXPECT_EQ(bst.findGreater(8), 10);
+    EXPECT_TRUE(bst.findGreater(10));
+    EXPECT_EQ(bst.findGreater(10), 11);
+    EXPECT_FALSE(bst.findGreater(11));
+    EXPECT_FALSE(bst.findGreater(12));
+}

@@ -40,9 +40,18 @@ class BinarySearchTree {
         }
     }
 
-    bool deleteNode(int const val) { return deleteNodeSubTree(root_, val); }
+    bool deleteNode(int const val) { return deleteNode(root_, val); }
 
-    size_t size() { return sizeOfSubTree(root_); }
+    std::optional<int> findLess(int const val) { return findLess(root_, val); }
+
+    std::optional<int> findGreater(int const val) {
+        return findGreater(root_, val);
+    }
+    int findLessOrEqual(int const val);
+    int findGreaterOrEqual(int const val);
+    int findInRange(int const low, int const high);
+
+    size_t size() { return sizeOfTree(root_); }
 
     std::optional<int> root() {
         if (root_) {
@@ -51,7 +60,7 @@ class BinarySearchTree {
         return std::nullopt;
     }
 
-    void print() { printSubTree(root_, 0); }
+    void print() { printTree(root_, 0); }
 
    private:
     struct Node {
@@ -62,27 +71,60 @@ class BinarySearchTree {
         Node(int val) : value(val) {}
     };
 
-    static size_t sizeOfSubTree(Node* root) {
+    static std::optional<int> findLess(Node* node, int const val) {
+        if (!node) {
+            return std::nullopt;
+        }
+        if (node->value >= val) {
+            return findLess(node->left, val);
+        }
+        int diff = val - node->value;
+        if (node->right && diff > std::abs(val - node->right->value) &&
+            (std::abs(val - node->right->value) != 0 || node->right->left ||
+             node->right->right)) {
+            return findLess(node->right, val);
+        }
+        return node->value;
+    }
+
+    static std::optional<int> findGreater(Node* node, int const val) {
+        if (!node) {
+            return std::nullopt;
+        }
+        if (node->value <= val) {
+            return findGreater(node->right, val);
+        }
+        int diff = node->value - val;
+        if (node->left && diff > (node->left->value - val) &&
+            (node->left->value - val) >= 0 &&
+            ((node->left->value - val) != 0 || node->left->left ||
+             node->left->right)) {
+            return findGreater(node->left, val);
+        }
+        return node->value;
+    }
+
+    static size_t sizeOfTree(Node* root) {
         if (!root) {
             return 0;
         }
         if (!root->right && !root->left) {
             return 1;
         }
-        size_t right = sizeOfSubTree(root->right);
-        size_t left = sizeOfSubTree(root->left);
+        size_t right = sizeOfTree(root->right);
+        size_t left = sizeOfTree(root->left);
         return right > left ? right + 1 : left + 1;
     }
 
-    static Node* deleteNodeSubTree(Node* node, int const val) {
+    static Node* deleteNode(Node* node, int const val) {
         if (!node) {
             return node;
         }
 
         if (val > node->value) {
-            node->right = deleteNodeSubTree(node->right, val);
+            node->right = deleteNode(node->right, val);
         } else if (val < node->value) {
-            node->left = deleteNodeSubTree(node->left, val);
+            node->left = deleteNode(node->left, val);
         } else {
             if (!node->right && !node->left) {
                 delete node;
@@ -98,7 +140,7 @@ class BinarySearchTree {
             }
             Node* temp = findMinNode(node->right);
             node->value = temp->value;
-            node->right = deleteNodeSubTree(node->right, temp->value);
+            node->right = deleteNode(node->right, temp->value);
         }
         return node;
     }
@@ -129,18 +171,18 @@ class BinarySearchTree {
         }
     }
 
-    static void printSubTree(Node* root, int space) {
+    static void printTree(Node* root, int space) {
         if (!root) {
             std::cout << " \n";
             return;
         }
         space += kPrintSpace;
-        printSubTree(root->right, space);
+        printTree(root->right, space);
         for (int i = 0; i < space; ++i) {
             std::cout << " ";
         }
         std::cout << root->value << "\n";
-        printSubTree(root->left, space);
+        printTree(root->left, space);
     }
 
     Node* root_ = nullptr;
