@@ -42,14 +42,7 @@ class BinarySearchTree {
 
     bool deleteNode(int const val) { return deleteNodeSubTree(root_, val); }
 
-    size_t size() {
-        if (!root_) {
-            return 0;
-        }
-        size_t right = sizeOfSubTree(root_->right);
-        size_t left = sizeOfSubTree(root_->left);
-        return right > left ? right + 1 : left + 1;
-    }
+    size_t size() { return sizeOfSubTree(root_); }
 
     std::optional<int> root() {
         if (root_) {
