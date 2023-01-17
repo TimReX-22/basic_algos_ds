@@ -1,0 +1,16 @@
+Language: Cpp
+BasedOnStyle: Google
+ColumnLimit: 80
+MaxEmptyLinesToKeep: 1
+IndentWidth: 4
+
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortEnumsOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+
+AlignAfterOpenBracket: AlwaysBreak
