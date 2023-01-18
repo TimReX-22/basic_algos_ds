@@ -78,3 +78,41 @@ TEST(bst_tests, find_greater) {
     EXPECT_FALSE(bst.findGreater(11));
     EXPECT_FALSE(bst.findGreater(12));
 }
+
+TEST(bst_tests, find_less_or_equal) {
+    BinarySearchTree bst{1, 2, 4, 6, 8, 10, 11};
+    EXPECT_EQ(bst.findLessOrEqual(1), 1);
+    EXPECT_EQ(bst.findLessOrEqual(2), 2);
+    EXPECT_EQ(bst.findLessOrEqual(4), 4);
+    EXPECT_EQ(bst.findLessOrEqual(5), 4);
+    EXPECT_EQ(bst.findLessOrEqual(6), 6);
+    EXPECT_EQ(bst.findLessOrEqual(8), 8);
+    EXPECT_EQ(bst.findLessOrEqual(10), 10);
+    EXPECT_EQ(bst.findLessOrEqual(11), 11);
+    EXPECT_FALSE(bst.findLessOrEqual(0));
+}
+
+TEST(bst_tests, find_greater_or_equal) {
+    BinarySearchTree bst{1, 2, 4, 6, 8, 10, 11};
+    EXPECT_EQ(bst.findGreaterOrEqual(1), 1);
+    EXPECT_EQ(bst.findGreaterOrEqual(2), 2);
+    EXPECT_EQ(bst.findGreaterOrEqual(4), 4);
+    EXPECT_EQ(bst.findGreaterOrEqual(5), 6);
+    EXPECT_EQ(bst.findGreaterOrEqual(6), 6);
+    EXPECT_EQ(bst.findGreaterOrEqual(8), 8);
+    EXPECT_EQ(bst.findGreaterOrEqual(10), 10);
+    EXPECT_EQ(bst.findGreaterOrEqual(11), 11);
+    EXPECT_FALSE(bst.findGreaterOrEqual(12));
+}
+
+TEST(bst_tests, find_in_range) {
+    BinarySearchTree bst{1, 2, 4, 6, 8, 10, 11};
+    EXPECT_FALSE(bst.findInRange(12, 15));
+    auto const& range = bst.findInRange(1, 4);
+    std::vector<int> ground_truth{1, 2, 4};
+    EXPECT_TRUE(range);
+    EXPECT_TRUE(range.value().size() == ground_truth.size());
+    for (unsigned int i = 0; i < range.value().size(); ++i) {
+        EXPECT_EQ(range.value()[i], ground_truth[i]);
+    }
+}

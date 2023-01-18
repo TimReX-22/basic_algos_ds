@@ -9,8 +9,8 @@
 class BinarySearchTree {
    public:
     BinarySearchTree() = default;
-    BinarySearchTree(int const val) : root_(new Node(val)) {}
-    BinarySearchTree(std::initializer_list<int> const& list) {
+    explicit BinarySearchTree(int const val) : root_(new Node(val)) {}
+    explicit BinarySearchTree(std::initializer_list<int> const& list) {
         std::vector<int> vec(list);
         std::sort(vec.begin(), vec.end());
         createBST(vec);
@@ -47,9 +47,39 @@ class BinarySearchTree {
     std::optional<int> findGreater(int const val) {
         return findGreater(root_, val);
     }
-    int findLessOrEqual(int const val);
-    int findGreaterOrEqual(int const val);
-    int findInRange(int const low, int const high);
+    std::optional<int> findLessOrEqual(int const val) {
+        Node* node = root_;
+        Node* result = nullptr;
+        while (node) {
+            if (node->value <= val) {
+                result = node;
+                node = node->right;
+            } else {
+                node = node->left;
+            }
+        }
+        return result ? std::optional<int>{result->value} : std::nullopt;
+    }
+    std::optional<int> findGreaterOrEqual(int const val) {
+        Node* node = root_;
+        Node* result = nullptr;
+        while (node) {
+            if (node->value >= val) {
+                result = node;
+                node = node->left;
+            } else {
+                node = node->right;
+            }
+        }
+        return result ? std::optional<int>{result->value} : std::nullopt;
+    }
+    std::optional<std::vector<int>> findInRange(int const low, int const high) {
+        std::vector<int> result;
+        findInRange(low, high, root_, result);
+        std::sort(result.begin(), result.end());
+        return result.size() > 0 ? std::optional<std::vector<int>>{result}
+                                 : std::nullopt;
+    }
 
     size_t size() { return sizeOfTree(root_); }
 
@@ -114,6 +144,24 @@ class BinarySearchTree {
         size_t right = sizeOfTree(root->right);
         size_t left = sizeOfTree(root->left);
         return right > left ? right + 1 : left + 1;
+    }
+
+    static void findInRange(
+        int const low, int const high, Node* root, std::vector<int>& vec) {
+        if (!root) {
+            return;
+        }
+        if (root->value < low) {
+            findInRange(low, high, root->right, vec);
+            return;
+        }
+        if (root->value > high) {
+            findInRange(low, high, root->left, vec);
+            return;
+        }
+        vec.push_back(root->value);
+        findInRange(low, high, root->right, vec);
+        findInRange(low, high, root->left, vec);
     }
 
     static Node* deleteNode(Node* node, int const val) {
