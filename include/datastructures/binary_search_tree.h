@@ -10,7 +10,7 @@ class BinarySearchTree {
    public:
     BinarySearchTree() = default;
     explicit BinarySearchTree(int const val) : root_(new Node(val)) {}
-    explicit BinarySearchTree(std::initializer_list<int> const& list) {
+    BinarySearchTree(std::initializer_list<int> const& list) {
         std::vector<int> vec(list);
         std::sort(vec.begin(), vec.end());
         createBST(vec);
