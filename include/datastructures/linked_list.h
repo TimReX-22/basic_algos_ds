@@ -31,7 +31,7 @@ class LinkedList {
     }
 
     void insertAt(int const k, T val) {
-        if (k < 0) {
+        if (k < 0 || k > size()) {
             throw std::invalid_argument(
                 "Index out of bounds, must be greater zero!");
         }
@@ -43,9 +43,6 @@ class LinkedList {
             tail_->next = new_node;
             tail_ = new_node;
             return;
-        }
-        if (k > size()) {
-            throw std::invalid_argument("Indox out of bounds, to big!");
         }
         while (node) {
             if (idx == k) {
