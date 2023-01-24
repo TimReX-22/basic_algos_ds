@@ -40,7 +40,11 @@ class Stack {
         }
         T val = tail_->value;
         tail_ = prev;
-        tail_->next = nullptr;
+        if (tail_) {
+            tail_->next = nullptr;
+        } else {
+            head_ = nullptr;
+        }
         return val;
     }
 
