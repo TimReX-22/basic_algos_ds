@@ -21,6 +21,7 @@ add_executable(all_tests
     test/queue_test.cpp
     test/bst_test.cpp
     test/linked_list_test.cpp
+    test/stack_test.cpp
 )
 
 target_link_libraries(all_tests gtest)

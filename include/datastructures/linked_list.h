@@ -119,6 +119,31 @@ class LinkedList {
         std::cout << "\n";
     }
 
+    void sort(bool ascending = true) {
+        bool sorted = false;
+        while (!sorted) {
+            Node* node = head_;
+            Node* prev = nullptr;
+            sorted = true;
+            while (node) {
+                if (prev && ascending && node->value < prev->value) {
+                    sorted = false;
+                    auto const temp = node->value;
+                    node->value = prev->value;
+                    prev->value = temp;
+                }
+                if (prev && !ascending && node->value > prev->value) {
+                    sorted = false;
+                    auto const temp = node->value;
+                    node->value = prev->value;
+                    prev->value = temp;
+                }
+                prev = node;
+                node = node->next;
+            }
+        }
+    }
+
     T& operator[](int const k) const {
         if (k < 0) {
             throw std::invalid_argument("Index out of bounds!");

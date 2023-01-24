@@ -106,3 +106,21 @@ TEST(linked_list_tests, remove_by_idx) {
     EXPECT_EQ(ll.back(), 4);
     EXPECT_THROW(ll.removeByIdx(10), std::invalid_argument);
 }
+
+TEST(linked_list_tests, sort) {
+    LinkedList<int> ll{5, 2, 4, 8, 1, 3};
+    ll.sort();
+    EXPECT_EQ(ll[0], 1);
+    EXPECT_EQ(ll[1], 2);
+    EXPECT_EQ(ll[2], 3);
+    EXPECT_EQ(ll[3], 4);
+    EXPECT_EQ(ll[4], 5);
+    EXPECT_EQ(ll[5], 8);
+    ll.sort(false);
+    EXPECT_EQ(ll[0], 8);
+    EXPECT_EQ(ll[1], 5);
+    EXPECT_EQ(ll[2], 4);
+    EXPECT_EQ(ll[3], 3);
+    EXPECT_EQ(ll[4], 2);
+    EXPECT_EQ(ll[5], 1);
+}
