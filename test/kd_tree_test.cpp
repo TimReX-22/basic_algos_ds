@@ -2,18 +2,6 @@
 
 #include "gtest/gtest.h"
 
-TEST(kd_point_test, construction) {
-    KDPoint point_empty;
-    EXPECT_EQ(point_empty.size(), 0);
-
-    KDPoint point{{1, 2, 3}};
-    EXPECT_EQ(point.size(), 3);
-
-    KDPoint point_size{{1, 2, 3, 4}, 4};
-    EXPECT_EQ(point_size.size(), 4);
-    EXPECT_THROW(KDPoint({1, 2, 3}, 4), std::invalid_argument);
-}
-
 TEST(KDTreeTest, InsertSinglePoint) {
     KDTree tree;
     std::vector<int> point = {5, 3};

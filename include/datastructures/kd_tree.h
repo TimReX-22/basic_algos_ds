@@ -2,26 +2,6 @@
 
 #include <vector>
 
-class KDPoint {
-   public:
-    KDPoint() = default;
-    explicit KDPoint(std::vector<int> const& point)
-        : coord_(point), size_(point.size()) {}
-    KDPoint(std::vector<int> const& point, unsigned int const size)
-        : coord_(point), size_(size) {
-        if (size_ != coord_.size()) {
-            throw std::invalid_argument(
-                "size and length of point vector must match!");
-        }
-    }
-
-    int size() { return size_; }
-
-   private:
-    std::vector<int> const coord_;
-    unsigned int size_ = 0;
-};
-
 class KDNode {
    public:
     KDNode() : left_(nullptr), right_(nullptr){};

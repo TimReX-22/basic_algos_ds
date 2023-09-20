@@ -14,17 +14,21 @@ include(GoogleTest)
 
 enable_testing()
 
-include_directories(include/datastructures)
-
-add_executable(all_tests 
-    test/test_main.cpp
-    test/queue_test.cpp
-    test/bst_test.cpp
-    test/linked_list_test.cpp
-    test/stack_test.cpp
+add_library(datastructures 
+    include/datastructures/kd_tree.cpp
 )
 
-target_link_libraries(all_tests gtest)
+target_include_directories(datastructures PUBLIC include/datastructures)
+
+file(GLOB TEST_FILES test/*.cpp)
+
+add_executable(all_tests 
+    ${TEST_FILES}
+)
+
+target_link_libraries(all_tests gtest datastructures)
+
+
 gtest_discover_tests(all_tests)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
