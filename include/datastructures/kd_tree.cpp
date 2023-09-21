@@ -54,20 +54,20 @@ bool KDTree::contains(
     }
 }
 
-std::vector<std::vector<int>> KDTree::in_order_traversal() const {
+std::vector<std::vector<int>> KDTree::inOrderTraversal() const {
     std::vector<std::vector<int>> result;
-    in_order_traversal(root_, result);
+    inOrderTraversal(root_, result);
     return result;
 }
 
-void KDTree::in_order_traversal(
+void KDTree::inOrderTraversal(
     KDNode* node, std::vector<std::vector<int>>& result) {
     if (!node) {
         return;
     }
-    in_order_traversal(node->left(), result);
+    inOrderTraversal(node->left(), result);
     result.push_back(node->point());
-    in_order_traversal(node->right(), result);
+    inOrderTraversal(node->right(), result);
 }
 
 std::optional<std::vector<int>> KDTree::nearestNeighbor(

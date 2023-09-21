@@ -51,7 +51,7 @@ TEST(KDTreeTest, InsertSingleNode) {
     std::vector<int> point = {5, 3};
     tree.insert(point);
 
-    auto const traversal = tree.in_order_traversal();
+    auto const traversal = tree.inOrderTraversal();
     ASSERT_EQ(traversal.size(), 1);
     ASSERT_EQ(traversal[0], point);
 }
@@ -64,7 +64,7 @@ TEST(KDTreeTest, InsertInCorrectOrder) {
     tree.insert({7, 6});
     tree.insert({9, 8});
 
-    auto const traversal = tree.in_order_traversal();
+    auto const traversal = tree.inOrderTraversal();
 
     std::vector<std::vector<int>> expected = {
         {2, 4}, {5, 5}, {7, 6}, {8, 7}, {9, 8}};

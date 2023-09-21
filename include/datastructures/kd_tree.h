@@ -51,14 +51,14 @@ class KDTree {
     std::optional<std::vector<int>> nearestNeighbor(
         std::vector<int> const& search_point) const;
 
-    std::vector<std::vector<int>> in_order_traversal() const;
+    std::vector<std::vector<int>> inOrderTraversal() const;
 
    private:
     bool insert(KDNode* new_node);
     static bool insert(KDNode* root, KDNode* new_node, int depth);
     static bool contains(
         KDNode* node, std::vector<int> const& point_coord, int depth);
-    static void in_order_traversal(
+    static void inOrderTraversal(
         KDNode* node, std::vector<std::vector<int>>& result);
     static void nearestNeighbor(
         KDNode* root, std::vector<int> const& search_point,
