@@ -24,15 +24,14 @@ bool KDTree::insert(KDNode* root, KDNode* new_node, int depth) {
             return true;
         }
         return insert(root->right(), new_node, depth + 1);
-    } else if (root->at(plane) > new_node->at(plane)) {
+    } else if (root->point() != new_node->point()) {
         if (!root->left()) {
             root->set_left(new_node);
             return true;
         }
         return insert(root->left(), new_node, depth + 1);
     }
-    return root->point() != new_node->point() &&
-           insert(root->left(), new_node, depth + 1);
+    return false;
 }
 
 bool KDTree::contains(std::vector<int> const& point_coord) const {
@@ -69,4 +68,57 @@ void KDTree::in_order_traversal(
     in_order_traversal(node->left(), result);
     result.push_back(node->point());
     in_order_traversal(node->right(), result);
+}
+
+std::optional<std::vector<int>> KDTree::nearestNeighbor(
+    std::vector<int> const& search_point) const {
+    if (!root_ || root_->k() != search_point.size()) {
+        return std::nullopt;
+    }
+    std::vector<int> closest_point = root_->point();
+    float min_distance = std::numeric_limits<float>::max();
+    nearestNeighbor(root_, search_point, closest_point, min_distance, 0);
+    return closest_point;
+}
+
+void KDTree::nearestNeighbor(
+    KDNode* root, std::vector<int> const& search_point,
+    std::vector<int>& closest_point, float& min_distance, int depth) {
+    float current_distance = distance(root->point(), search_point);
+    if (current_distance < min_distance) {
+        min_distance = current_distance;
+        closest_point = root->point();
+    }
+    int plane = depth % root->k();
+    if (root->at(plane) < search_point[plane]) {
+        if (!root->right()) {
+            return;
+        } else {
+            nearestNeighbor(
+                root->right(), search_point, closest_point, min_distance,
+                depth + 1);
+            float distance_hyperplane =
+                std::pow(root->at(plane) - search_point[plane], 2);
+            if (distance_hyperplane > min_distance && root->left()) {
+                nearestNeighbor(
+                    root->left(), search_point, closest_point, min_distance,
+                    depth + 1);
+            }
+        }
+    } else {
+        if (!root->left()) {
+            return;
+        } else {
+            nearestNeighbor(
+                root->left(), search_point, closest_point, min_distance,
+                depth + 1);
+            float distance_hyperplane =
+                std::pow(root->at(plane) - search_point[plane], 2);
+            if (distance_hyperplane > min_distance && root->right()) {
+                nearestNeighbor(
+                    root->right(), search_point, closest_point, min_distance,
+                    depth + 1);
+            }
+        }
+    }
 }

@@ -1,6 +1,18 @@
 #pragma once
 
+#include <cmath>
+#include <optional>
 #include <vector>
+
+inline static float distance(
+    std::vector<int> const& point1, std::vector<int> const& point2) {
+    assert(point1.size() == point2.size());
+    float res = 0;
+    for (int i = 0; i < point1.size(); ++i) {
+        res += std::pow(point1[i] - point2[i], 2);
+    }
+    return res;
+}
 
 class KDNode {
    public:
@@ -21,6 +33,8 @@ class KDNode {
     bool is_equal(std::vector<int> point) const { return point == point_; }
     std::vector<int> point() { return point_; }
 
+    bool isLeaf() { return !left_ && !right_; }
+
    private:
     std::vector<int> const point_;
     KDNode *left_, *right_;
@@ -34,6 +48,9 @@ class KDTree {
     bool insert(std::vector<int> const& new_point_coord);
     bool contains(std::vector<int> const& point_coord) const;
 
+    std::optional<std::vector<int>> nearestNeighbor(
+        std::vector<int> const& search_point) const;
+
     std::vector<std::vector<int>> in_order_traversal() const;
 
    private:
@@ -43,6 +60,9 @@ class KDTree {
         KDNode* node, std::vector<int> const& point_coord, int depth);
     static void in_order_traversal(
         KDNode* node, std::vector<std::vector<int>>& result);
+    static void nearestNeighbor(
+        KDNode* root, std::vector<int> const& search_point,
+        std::vector<int>& closest_point, float& min_distance, int depth);
 
     KDNode* root_;
 };
