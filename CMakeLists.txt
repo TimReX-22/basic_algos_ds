@@ -15,7 +15,8 @@ include(GoogleTest)
 enable_testing()
 
 add_library(datastructures 
-    include/datastructures/kd_tree.cpp
+    src/datastructures/kd_tree.cpp
+    src/algorithms/sorting.cpp
 )
 
 target_include_directories(datastructures PUBLIC include/datastructures)
