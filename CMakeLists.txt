@@ -19,6 +19,7 @@ add_library(datastructures
 )
 
 target_include_directories(datastructures PUBLIC include/datastructures)
+target_include_directories(datastructures PUBLIC include/algorithms)
 
 file(GLOB TEST_FILES test/*.cpp)
 
