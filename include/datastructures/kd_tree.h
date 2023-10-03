@@ -3,6 +3,7 @@
 #include <cmath>
 #include <optional>
 #include <vector>
+#include <assert.h>
 
 inline static float distance(
     std::vector<int> const& point1, std::vector<int> const& point2) {
