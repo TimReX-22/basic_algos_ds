@@ -5,6 +5,7 @@ class Sorting {
     public:
     Sorting() = delete;
 
+    // Time Complexitiy: O(n^2)
     static void InsertionSort(std::vector<T>& array);
     static void MergeSort(std::vector<T>& array);
 
