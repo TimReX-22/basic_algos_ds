@@ -7,7 +7,9 @@ class Sorting {
 
     // Time Complexitiy: O(n^2)
     static void InsertionSort(std::vector<T>& array);
+    // Time Complexitiy: O(n*log(n))
     static void MergeSort(std::vector<T>& array);
+    // Time Complexitiy: O(n"log(n))
     static void QuickSort(std::vector<T>& array);
 
    private:
