@@ -16,11 +16,15 @@ enable_testing()
 
 add_library(datastructures 
     src/datastructures/kd_tree.cpp
+    src/datastructures/graph.cpp
     src/algorithms/sorting.cpp
+    src/algorithms/search.cpp
 )
 
 target_include_directories(datastructures PUBLIC include/datastructures)
 target_include_directories(datastructures PUBLIC include/algorithms)
+target_include_directories(datastructures PUBLIC lib) 
+
 
 file(GLOB TEST_FILES test/*.cpp)
 
