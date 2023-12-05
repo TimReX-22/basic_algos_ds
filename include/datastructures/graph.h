@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unistd.h>
+
 #include <cassert>
 #include <filesystem>
 #include <fstream>
@@ -12,6 +14,22 @@
 #include "json.hpp"
 
 using json = nlohmann::json;
+
+inline std::optional<std::string const> const get_graph_file(
+    std::string const& size) {
+    char cwd[1024];
+    if (getcwd(cwd, sizeof(cwd)) != nullptr) {
+        std::string currentDir(cwd);
+
+        if (currentDir.find("/build") != std::string::npos) {
+            return "../test/resources/graph_" + size + ".json";
+        } else {
+            return "test/resources/graph_" + size + ".json";
+        }
+    } else {
+        return std::nullopt;
+    }
+}
 
 class Graph {
    public:

@@ -19,7 +19,7 @@ std::vector<float> Search::djikstra(Graph g, int start_node) {
         s = *start_idx;
     }
 
-    std::vector<float> d(n, std::numeric_limits<float>::infinity());
+    std::vector<float> d(n, kInf);
     d[s] = 0.f;
 
     auto compare = [](VertexDistance p1, VertexDistance p2) {
@@ -34,7 +34,7 @@ std::vector<float> Search::djikstra(Graph g, int start_node) {
         if (v == start_node) {
             pq.push(std::make_pair(v, 0.f));
         } else {
-            pq.push(std::make_pair(v, std::numeric_limits<float>::infinity()));
+            pq.push(std::make_pair(v, kInf));
         }
     }
 

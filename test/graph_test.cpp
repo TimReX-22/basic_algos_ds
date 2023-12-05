@@ -90,7 +90,9 @@ TEST(GraphTest, GetVertices) {
 }
 
 TEST(GraphTest, GraphFromJsonTest) {
-    std::string graph_file{"test/resources/graph_small.json"};
+    auto const file{get_graph_file("small")};
+    ASSERT_TRUE(file);
+    std::string const graph_file{*file};
     auto graph_json{Graph::createGraphFromJson(graph_file, true)};
     ASSERT_TRUE(graph_json);
     Graph g{*graph_json};
