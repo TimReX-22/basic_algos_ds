@@ -15,9 +15,14 @@ TEST(GraphTest, AddEdgeTest) {
     Graph g;
     EXPECT_TRUE(g.addVertex(1));
     EXPECT_TRUE(g.addVertex(2));
+    EXPECT_TRUE(g.addVertex(3));
     EXPECT_TRUE(g.addEdge(1, 2, 1.0));
-    EXPECT_FALSE(g.addEdge(1, 3, 1.0));
+    EXPECT_TRUE(g.addEdge(2, 3, 2.0));
+    EXPECT_FALSE(g.addEdge(1, 4, 1.0));
     EXPECT_FALSE(g.addEdge(1, 1, 1.0));
+
+    EXPECT_FLOAT_EQ(*g.weight(1, 2), 1.0);
+    EXPECT_FLOAT_EQ(*g.weight(2, 3), 2.0);
 }
 
 TEST(GraphTest, ContainsVertexTest) {
@@ -38,6 +43,9 @@ TEST(GraphTest, NeighborsTest) {
     auto neighbors = g.neighbors(1);
     ASSERT_TRUE(neighbors.has_value());
     EXPECT_EQ(neighbors->size(), 2);
+
+    EXPECT_EQ(neighbors->at(0).first, 2);
+    EXPECT_EQ(neighbors->at(1).first, 3);
 }
 
 TEST(GraphTest, WeightTest) {
@@ -83,12 +91,18 @@ TEST(GraphTest, GetVertices) {
 
 TEST(GraphTest, GraphFromJsonTest) {
     std::string graph_file{"test/resources/graph_small.json"};
-    auto graph_json{Graph::createGraphFromJson(graph_file)};
+    auto graph_json{Graph::createGraphFromJson(graph_file, true)};
     ASSERT_TRUE(graph_json);
     Graph g{*graph_json};
     ASSERT_EQ(g.size(), 6);
 
     auto neighbors_1{*g.neighbors(1)};
+    ASSERT_EQ(neighbors_1.size(), 2);
     EXPECT_EQ(neighbors_1[0].first, 2);
     EXPECT_EQ(neighbors_1[1].first, 3);
+
+    auto neighbors_2{*g.neighbors(2)};
+    ASSERT_EQ(neighbors_2.size(), 2);
+    EXPECT_EQ(neighbors_2[0].first, 3);
+    EXPECT_EQ(neighbors_2[1].first, 4);
 }

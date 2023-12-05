@@ -44,19 +44,15 @@ std::vector<float> Search::djikstra(Graph g, int start_node) {
         auto [vertex, dist] = pq.top();
         pq.pop();
 
-        std::cout << "v = " << vertex << ", d =  " << dist << "\n";
-
         if (visited.find(vertex) != visited.end()) {
             continue;
         }
         visited.insert(vertex);
 
-        if (!g.neighbors(vertex)) {
-            std::cout << "fail\n";
-            continue;
-        }
+        assert(g.neighbors(vertex));
+        auto neighbors = *g.neighbors(vertex);
 
-        for (auto [u, weight] : *g.neighbors(vertex)) {
+        for (auto [u, weight] : neighbors) {
             float new_dist = dist + weight;
             int idx_u = *g.idx(u);
             if (new_dist < d[idx_u]) {
@@ -65,5 +61,5 @@ std::vector<float> Search::djikstra(Graph g, int start_node) {
             }
         }
     }
-    return {};
+    return d;
 }

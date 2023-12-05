@@ -19,7 +19,7 @@ class Graph {
     Graph(bool directed) : adj_list_(), val_to_idx_(), is_directed_(directed) {}
 
     static std::optional<Graph> createGraphFromJson(
-        std::string const& filename) {
+        std::string const& filename, bool const is_directed) {
         if (!std::filesystem::exists(filename)) {
             std::cerr << "Unable to open file: " << filename << std::endl;
             return std::nullopt;
@@ -33,7 +33,7 @@ class Graph {
         json j;
         file >> j;
 
-        Graph g;
+        Graph g(is_directed);
 
         for (auto& element : j.items()) {
             int vertex = std::stoi(element.key());
@@ -47,7 +47,9 @@ class Graph {
                     g.addVertex(neighbor_vertex);
                 }
 
-                g.addEdge(vertex, neighbor_vertex, weight);
+                if (!g.addEdge(vertex, neighbor_vertex, weight)) {
+                    return std::nullopt;
+                };
             }
         }
 
@@ -94,7 +96,8 @@ class Graph {
         if (!containsVertex(v)) {
             return std::nullopt;
         }
-        return adj_list_[val_to_idx_[v]];
+        int idx = val_to_idx_[v];
+        return adj_list_[idx];
     }
 
     std::optional<float> weight(int v, int u) {
