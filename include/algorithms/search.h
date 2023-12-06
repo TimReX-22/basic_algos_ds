@@ -1,3 +1,4 @@
+#include <unordered_set>
 #include <vector>
 
 #include "graph.h"
@@ -16,7 +17,8 @@ class Search {
      * @return std::vector<float> array containing the shortest path from the
      * starting node to every other node in the graph
      */
-    [[nodiscard]] static std::vector<float> djikstra(Graph g, int start_node);
+    [[nodiscard]] static std::vector<float> djikstra(
+        Graph g, int const start_node);
 
     /**
      * @brief runs the Floyd-Warshall algorithm to find All-Pairs-Shortest-Path
@@ -28,5 +30,22 @@ class Search {
      */
     [[nodiscard]] static std::vector<std::vector<float>> floydWarshall(Graph g);
 
+    /**
+     * @brief runs Breadth-First Search on the graph g
+     *
+     * @param g Graph
+     * @param val value/vertex to search for
+     * @return true if value is found
+     * @return false if value is not found in graph
+     */
+    static bool BFS(Graph g, int const val);
+
+    static bool DFS(Graph g, int const val);
+
+   private:
     static constexpr float kInf{std::numeric_limits<float>::infinity()};
+
+    static bool DFS(
+        Graph& g, int const vertex, std::unordered_set<int>& visited,
+        int const val);
 };

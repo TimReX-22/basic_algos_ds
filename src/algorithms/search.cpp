@@ -6,7 +6,7 @@
 
 using VertexDistance = std::pair<int, float>;
 
-std::vector<float> Search::djikstra(Graph g, int start_node) {
+std::vector<float> Search::djikstra(Graph g, int const start_node) {
     unsigned int const n = g.size();
     if (n == 0) {
         return {};
@@ -70,13 +70,6 @@ std::vector<std::vector<float>> Search::floydWarshall(Graph g) {
         }
     }
 
-    for (auto d_i : d_prev) {
-        for (auto d : d_i) {
-            std::cout << d << " ";
-        }
-        std::cout << "\n";
-    }
-
     for (auto const k : g.vertices()) {
         for (auto const u : g.vertices()) {
             for (auto const v : g.vertices()) {
@@ -95,12 +88,71 @@ std::vector<std::vector<float>> Search::floydWarshall(Graph g) {
         d_prev = d;
     }
 
-    for (auto d_i : d_prev) {
-        for (auto d : d_i) {
-            std::cout << d << " ";
+    return d;
+}
+
+bool Search::BFS(Graph g, int const val) {
+    if (g.size() == 0) {
+        return false;
+    }
+    int const n = g.size();
+    int const start = g.vertices().at(0);
+
+    std::queue<int> queue;
+    queue.push(start);
+
+    std::unordered_set<int> visited;
+    visited.insert(start);
+
+    while (!queue.empty()) {
+        int const vertex = queue.front();
+        queue.pop();
+
+        if (val == vertex) {
+            return true;
         }
-        std::cout << "\n";
+
+        assert(g.neighbors(vertex));
+        auto const neighbors = *g.neighbors(vertex);
+
+        for (auto const& [u, weight] : neighbors) {
+            if (visited.find(u) == visited.end()) {
+                queue.push(u);
+                visited.insert(u);
+            }
+        }
     }
 
-    return d;
+    return false;
+}
+
+bool Search::DFS(Graph g, int const val) {
+    if (g.size() == 0) {
+        return false;
+    }
+    int const n = g.size();
+    int const start = g.vertices().at(0);
+
+    std::unordered_set<int> visited;
+
+    return DFS(g, start, visited, val);
+}
+
+bool Search::DFS(
+    Graph& g, int const vertex, std::unordered_set<int>& visited,
+    int const val) {
+    if (vertex == val) {
+        return true;
+    }
+    auto const neighbors = *g.neighbors(vertex);
+    bool found = false;
+    for (auto const& [u, weight] : neighbors) {
+        if (visited.find(u) == visited.end()) {
+            visited.insert(u);
+            if (DFS(g, u, visited, val)) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
