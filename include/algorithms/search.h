@@ -42,6 +42,10 @@ class Search {
 
     static bool DFS(Graph g, int const val);
 
+    static void DFS(
+        Graph g, std::vector<int>& order, std::unordered_set<int>& visited,
+        int const vertex);
+
    private:
     static constexpr float kInf{std::numeric_limits<float>::infinity()};
 

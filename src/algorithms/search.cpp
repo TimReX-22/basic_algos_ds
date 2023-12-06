@@ -138,6 +138,19 @@ bool Search::DFS(Graph g, int const val) {
     return DFS(g, start, visited, val);
 }
 
+void Search::DFS(
+    Graph g, std::vector<int>& order, std::unordered_set<int>& visited,
+    int const vertex) {
+    auto const neighbors = *g.neighbors(vertex);
+    for (auto const [u, weight] : neighbors) {
+        if (visited.find(u) == visited.end()) {
+            visited.insert(u);
+            DFS(g, order, visited, u);
+        }
+    }
+    order.push_back(vertex);
+}
+
 bool Search::DFS(
     Graph& g, int const vertex, std::unordered_set<int>& visited,
     int const val) {

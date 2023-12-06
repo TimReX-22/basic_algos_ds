@@ -108,3 +108,24 @@ TEST(GraphTest, GraphFromJsonTest) {
     EXPECT_EQ(neighbors_2[0].first, 3);
     EXPECT_EQ(neighbors_2[1].first, 4);
 }
+
+TEST(GraphTest, edges) {
+    auto const file{get_graph_file("small")};
+    ASSERT_TRUE(file);
+    std::string const graph_file{*file};
+    auto graph_json{Graph::createGraphFromJson(graph_file, true)};
+    ASSERT_TRUE(graph_json);
+    Graph g{*graph_json};
+    ASSERT_EQ(g.size(), 6);
+
+    auto const edges{g.edges()};
+    ASSERT_TRUE(edges.size() == 8);
+
+    EXPECT_EQ(edges[0].first.first, 1);
+    EXPECT_EQ(edges[0].first.second, 2);
+    EXPECT_FLOAT_EQ(edges[0].second, 2.f);
+
+    EXPECT_EQ(edges[1].first.first, 1);
+    EXPECT_EQ(edges[1].first.second, 3);
+    EXPECT_FLOAT_EQ(edges[1].second, 4.f);
+}

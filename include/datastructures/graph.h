@@ -33,6 +33,8 @@ inline std::optional<std::string const> const get_graph_file(
 
 class Graph {
    public:
+    using EdgeWeight = std::pair<std::pair<int, int>, float>;
+
     Graph() = default;
     Graph(bool directed) : adj_list_(), val_to_idx_(), is_directed_(directed) {}
 
@@ -136,6 +138,18 @@ class Graph {
     }
 
     std::vector<int> vertices() const { return vertices_; }
+
+    std::vector<EdgeWeight> edges() const {
+        std::vector<EdgeWeight> edges;
+        for (int i = 0; i < size(); ++i) {
+            int v = vertices_[i];
+            std::vector<std::pair<int, float>> neighbors = adj_list_[i];
+            for (auto const& [u, weight] : neighbors) {
+                edges.push_back(std::make_pair(std::make_pair(v, u), weight));
+            }
+        }
+        return edges;
+    }
 
     unsigned int const size() const { return adj_list_.size(); }
 
